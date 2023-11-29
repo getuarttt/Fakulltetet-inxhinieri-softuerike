@@ -62,5 +62,25 @@ public class FacultyServiceImpls  implements FacultyService {
         return true;
     }
 
+    @Override
+    public boolean update(long id, FacultyDto dto) {
+
+        var optionalFaculty = repository.findById(id);
+        if (optionalFaculty.isEmpty())
+            throw new EntityNotFoundException("Faculty not found with id " + id);
+
+        var entity = optionalFaculty.get();
+        entity.setName(dto.getName());
+        entity.setLocation(dto.getLocation());
+        entity.setDepartments(dto.getDepartments());
+        entity.setOpenhours(dto.getOpenhours());
+        entity.setActive(dto.isActive());
+        entity.setDean(dto.getDean());
+
+
+        repository.save(entity);
+        return true;
+    }
+
 
 }
